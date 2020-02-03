@@ -1,0 +1,1 @@
+This repository contains a reference Kitcoin client library, to be used with the Kitcoin API.
