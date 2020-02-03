@@ -1,0 +1,4 @@
+// This file contains configuration for the client.
+{
+ "baseUrl": "https://api.kitcoin.xyz" // The base URL used for API queries. Ports and paths can also be defined here.
+}
