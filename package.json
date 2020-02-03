@@ -1,0 +1,31 @@
+{
+  "name": "libkitcoin",
+  "version": "0.0.1",
+  "description": "Reference Kitcoin client library",
+  "main": "out/entry.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install": "bash build.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chromezoneeths/libkitcoin.git"
+  },
+  "author": "CodETHS Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chromezoneeths/libkitcoin/issues"
+  },
+  "homepage": "https://github.com/chromezoneeths/libkitcoin#readme",
+  "dependencies": {
+    "@types/node": "^13.7.0",
+    "browserify": "^16.5.0",
+    "es6-promise": "^4.2.8",
+    "https-browserify": "^1.0.0",
+    "isomorphic-fetch": "^2.2.1",
+    "isomorphic-ws": "^4.0.1",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5",
+    "ws": "^7.2.1"
+  }
+}
