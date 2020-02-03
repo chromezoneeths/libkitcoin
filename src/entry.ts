@@ -1,3 +1,6 @@
-// This file does not contain any API code. You should look in abstractions.ts
-const abs = require( './abstractions' );
+// This file is the entrypoint.
+const api = require( './api' );
+const helpers = require( './helpers' );
 
+exports = helpers;
+exports.api = api;
