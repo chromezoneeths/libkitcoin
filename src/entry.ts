@@ -1,30 +1,36 @@
 import Socket from 'simple-websocket';
 let ws: Socket;
+let debugMessages = false;
 
 interface Secret {
 	get(): Promise<string|false>;
 	set(tgt: string): void;
 }
 
-export async function prepare(url: string, secret: Secret, cb: () => void) {
+export async function prepare(url: string, secret: Secret, cb: () => void, debug: boolean) {
+	debugMessages = debug;
+	dlog('Opening socket...');
 	ws = new Socket(url);
 
-	ws.on('message', (data: string) => {
-		const res = JSON.parse(data);
-		if (res.action === 'ping') {
+	ws.on('data', (data: string) => {
+		const response = JSON.parse(data);
+		if (response.action === 'ping') {
 			ws.send(JSON.stringify({
 				action: 'pong'
 			}));
 		}
 	});
 
-	ws.once('open', async () => {
-		if (await secret.get()) {
+	ws.once('connect', async () => {
+		dlog('Socket open.');
+		if (secret) {
+			dlog('Sending secret...');
 			ws.send(JSON.stringify({
 				action: 'secret',
 				secret: await secret.get()
 			}));
 		} else {
+			dlog('Asking for Google');
 			ws.send(JSON.stringify({
 				action: 'google'
 			}));
@@ -32,29 +38,43 @@ export async function prepare(url: string, secret: Secret, cb: () => void) {
 	});
 
 	function respondToMessage(data: string) {
-		const res = JSON.parse(data);
-		if (res.action === 'secret') {
-			if (res.result) {
+		dlog('Got message!');
+		const response = JSON.parse(data);
+		dlog(response);
+		if (response.action === 'secret') {
+			dlog('Got secret message!');
+			if (response.result) {
+				dlog('Login success!');
 				cb();
+			} else {
+				dlog('Secret failed, asking for Google');
+				secret.set('');
+				ws.once('data', onResponse);
+				ws.send(JSON.stringify({
+					action: 'google'
+				}));
 			}
-		} else if (res.action === 'login') {
+		} else if (response.action === 'login') {
+			dlog('Got Google message');
+			ws.once('data', onResponse);
 			if (process) {
 				const open = require('open');
-				open(res.url);
+				open(response.url);
 			} else {
-				window.open(res.url);
-				ws.once('message', onResponse);
+				window.open(response.url);
 			}
 		} else {
+			dlog('Unrelated...');
 			ws.once('data', respondToMessage);
 		}
 
 		function onResponse(data: string) {
-			const res = JSON.parse(data);
-			if (res.action === 'ready') {
+			const response = JSON.parse(data);
+			dlog(response);
+			if (response.action === 'ready') {
 				cb();
 			} else {
-				ws.once('message', onResponse);
+				ws.once('data', onResponse);
 			}
 		}
 	}
@@ -122,14 +142,20 @@ export async function admin(procedure: string, body: string) {
 async function action(name: string): Promise<any> {
 	// Helper function for known responses
 	return new Promise(resolve => {
-		ws.once('message', h);
+		ws.once('data', h);
 		function h(data: string) {
-			const res = JSON.parse(data);
-			if (res.action === name) {
-				resolve(res);
+			const response = JSON.parse(data);
+			if (response.action === name) {
+				resolve(response);
 			} else {
-				ws.once('message', h);
+				ws.once('data', h);
 			}
 		}
 	});
+}
+
+function dlog(message) {
+	if (debugMessages) {
+		console.log(message);
+	}
 }
