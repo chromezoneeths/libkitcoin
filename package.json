@@ -23,7 +23,6 @@
 		"gulp-typescript": "^6.0.0-alpha.1",
 		"gulp-uglify": "^3.0.2",
 		"gulplog": "^1.0.0",
-		"simple-websocket": "^8.1.1",
 		"tsify": "^4.0.1",
 		"uglifyify": "^5.0.2",
 		"vinyl-buffer": "^1.0.1",
@@ -35,6 +34,7 @@
 		"commander": "^5.0.0",
 		"inquirer": "^7.1.0",
 		"isomorphic-ws": "^4.0.1",
+		"simple-websocket": "^8.1.1",
 		"open": "^7.0.3",
 		"ws": "^7.2.3"
 	},
