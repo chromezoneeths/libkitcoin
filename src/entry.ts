@@ -57,10 +57,12 @@ export async function prepare( url: string, secret: Secret, cb: () => void, debu
 		} else if ( response.action === 'login' ) {
 			dlog( 'Got Google message' );
 			ws.once( 'data', onResponse );
-			if ( process ) {
+			if ( typeof window === 'undefined' ) {
+				dlog( "Detected Node" );
 				const open = require( 'open' );
 				open( response.url );
 			} else {
+				dlog( "Detected browser" );
 				window.open( response.url );
 			}
 		} else {
