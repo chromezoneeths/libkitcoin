@@ -130,6 +130,13 @@ export async function students( course: string ) {
 	return action( 'getStudentsResponse' );
 }
 
+export async function secret() { // Gets a new secret from the server.
+	ws.send( JSON.stringify( {
+		action: 'secret'
+	} ) );
+	return ( await action( 'secret' ) ).secret;
+}
+
 export async function admin( procedure: string, body: string ) {
 	ws.send( JSON.stringify( {
 		action: 'elevate',
