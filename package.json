@@ -2,8 +2,12 @@
 	"name": "libkitcoin",
 	"version": "0.0.1",
 	"description": "Kitcoin client",
-	"main": "js/entry.js",
+	"main": "node/entry.js",
+	"browser": "browser/entry.js",
 	"repository": "https://github.com/chromezoneeths/libkitcoin",
+	"scripts": {
+		"build": "gulp browser && gulp node"
+	},
 	"author": "Tucker Carlson-Huber <tuckerch@tuta.io>",
 	"license": "MIT",
 	"private": false,
