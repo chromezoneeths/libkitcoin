@@ -6,7 +6,7 @@
 	"browser": "browser/entry.js",
 	"repository": "https://github.com/chromezoneeths/libkitcoin",
 	"scripts": {
-		"build": "gulp browser && gulp node"
+		"prepare": "gulp browser && gulp node"
 	},
 	"author": "Tucker Carlson-Huber <tuckerch@tuta.io>",
 	"license": "MIT",
