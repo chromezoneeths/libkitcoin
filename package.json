@@ -35,7 +35,7 @@
 		"isomorphic-ws": "^4.0.1",
 		"simple-websocket": "^8.1.1",
 		"open": "^7.0.3",
-		"ws": "^7.2.3"
+		"ws": "^7.4.6"
 	},
 	"xo": {
 		"extends": "xo-typescript",
